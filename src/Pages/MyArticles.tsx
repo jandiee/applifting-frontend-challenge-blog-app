@@ -1,0 +1,22 @@
+import React from "react";
+import { NavLink } from "react-router-dom";
+import Header from "../Components/Header";
+import MyArticlesList from "../Components/MyArticles/MyArticlesList";
+import { ROUTES } from "../Routes/routes";
+
+const MyArticles = () => {
+  return (
+    <div className="space-y-8">
+      <div className="flex justify-start gap-4">
+        <Header>My articles</Header>
+        <NavLink to={ROUTES.newArticle} className="btn btn-primary btn-sm">
+          Create new article
+        </NavLink>
+      </div>
+
+      <MyArticlesList />
+    </div>
+  );
+};
+
+export default MyArticles;
