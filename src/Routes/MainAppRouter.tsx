@@ -8,6 +8,7 @@ import Login from "../Pages/Login";
 import MyArticles from "../Pages/MyArticles";
 import NotFound from "../Pages/NotFound";
 import RecentArticles from "../Pages/RecentArticles";
+import AuthenticatedRoute from "./AuthenticatedRoute";
 import { ROUTES } from "./routes";
 
 const MainAppRouter = () => {
@@ -18,10 +19,13 @@ const MainAppRouter = () => {
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.articles}>
           {/* Temporary redirect just to keep the path structure clean */}
-          <Route index element={<Navigate to="/" replace={true} />} />
+          <Route
+            index
+            element={<Navigate to={ROUTES.recentArticles} replace={true} />}
+          />
           <Route path={ROUTES.articleDetail} element={<ArticleDetail />} />
         </Route>
-        <Route path={ROUTES.myArticles}>
+        <Route path={ROUTES.myArticles} element={<AuthenticatedRoute />}>
           <Route index element={<MyArticles />} />
           <Route path={ROUTES.newArticle} element={<ArticleEdit />} />
           <Route path={ROUTES.editArticle} element={<ArticleEdit />} />
