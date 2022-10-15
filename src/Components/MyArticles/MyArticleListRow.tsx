@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import TextTruncate from "react-text-truncate";
+import { useAppSelector } from "../../hooks";
 import { ROUTES } from "../../Routes/routes";
 import agent from "../../Services/agent";
 
@@ -13,18 +14,17 @@ type Props = {
 const MyArticleListRow = ({ article, onDelete }: Props) => {
   const [articleDetail, setArticleDetail] = useState<TArticleDetail>();
   const navigate = useNavigate();
+  const tenantName = useAppSelector((state) => state.auth.tenantName);
 
   useEffect(() => {
     (async () => {
       const response = await agent.Articles.detail(article.articleId);
-      console.log(response);
       setArticleDetail(response);
     })();
   }, []);
 
   const handleDelete = async () => {
-    const response = await agent.Articles.delete(article.articleId);
-    console.log("delete response", response);
+    await agent.Articles.delete(article.articleId);
     onDelete();
   };
 
@@ -49,7 +49,7 @@ const MyArticleListRow = ({ article, onDelete }: Props) => {
           textElement="span"
         />
       </td>
-      <td>No author</td>
+      <td>{tenantName ?? "Author unknown"}</td>
       <td>{articleDetail.comments.length}</td>
       <td>
         <div className="flex items-center gap-4">

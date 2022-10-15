@@ -18,17 +18,8 @@ const RecentArticles = () => {
       <Header>Recent articles</Header>
       <div className="mt-8 space-y-8">
         {articles.map((item) => {
-          console.log(item);
           return <ArticlePreview key={item.articleId} article={item} />;
         })}
-        {/* <ArticlePreview />
-        <ArticlePreview />
-        <ArticlePreview />
-        <ArticlePreview />
-        <ArticlePreview />
-        <ArticlePreview />
-        <ArticlePreview />
-        <ArticlePreview /> */}
       </div>
     </>
   );

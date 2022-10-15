@@ -29,13 +29,10 @@ const ArticleEdit = () => {
   const handlePublish = async () => {
     if (action === "EDIT") {
       // edit article
-      const response = await agent.Articles.update(
-        articleId as string,
-        articleDetail
-      );
+      await agent.Articles.update(articleId as string, articleDetail);
     } else {
       // new article
-      const response = await agent.Articles.create(articleDetail);
+      await agent.Articles.create(articleDetail);
     }
     navigate(ROUTES.myArticles());
   };

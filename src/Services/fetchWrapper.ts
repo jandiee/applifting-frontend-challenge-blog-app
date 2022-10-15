@@ -9,14 +9,14 @@ const handleErrors = async (res: Response) => {
     }
     return {};
   } else if (res.status === 400) {
-    // TODO: handle all failed requests!!!
     const jsonResponse = await res.json();
     throw new Error(jsonResponse.message);
   } else if (res.status === 401) {
-    // TODO: handle ApiKeyInvalidError!!!
+    // TODO: handle ApiKeyInvalidError
     const jsonResponse = await res.json();
     throw new Error(jsonResponse.message);
   }
+  // TODO: handle all failed requests
 };
 
 const getAuthorizationHeader = (): HeadersInit => {
@@ -57,15 +57,6 @@ export const requests = {
       method: "GET",
       headers: { ...getCommonHeaders(), ...getAuthorizationHeader() },
     }).then(handleErrors),
-  // put: (url: string, body: object) =>
-  //   superagent
-  //     .put(`${API_ROOT}${url}`)
-  //     .type("form")
-  //     .send(body)
-  //     .use(setCommonHeaders)
-  //     .use(setAuthorizationHeader),
-  // .catch(handleErrors)
-  // .then(getResponseBody),
   patch: (url: string, body: object) =>
     fetch(`${API_ROOT}${url}`, {
       method: "PATCH",
