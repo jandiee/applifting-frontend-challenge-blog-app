@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import Header from "../Components/Header";
 import ArticlePreview from "../Components/RecentArticles/ArticlePreview";
@@ -9,7 +10,13 @@ const RecentArticles = () => {
   useEffect(() => {
     (async () => {
       const response = await agent.Articles.all();
-      setArticles(response.items);
+      // sort articles by createdAt descending, then save it to state
+      setArticles(
+        response.items.sort(
+          (a: TArticle, b: TArticle) =>
+            dayjs(b.createdAt).unix() - dayjs(a.createdAt).unix()
+        )
+      );
     })();
   }, []);
 
