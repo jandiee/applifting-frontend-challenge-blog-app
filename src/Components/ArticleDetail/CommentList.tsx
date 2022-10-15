@@ -39,10 +39,6 @@ const CommentList = ({ comments }: Props) => {
       {comments.map((item) => (
         <Comment key={item.commentId} comment={item} />
       ))}
-
-      {/* <Comment />
-      <Comment />
-      <Comment /> */}
     </div>
   );
 };
