@@ -1,40 +1,37 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../hooks";
+import ErrorText from "../Components/utils/ErrorText";
+import { useAppDispatch } from "../hooks";
 import { ROUTES } from "../Routes/routes";
 import { login } from "../Store/authSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const passwordTextInputRef = useRef(null);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const authError = useAppSelector((state) => state.auth.error);
-  const prevAuthError = useRef<boolean | null>(authError);
 
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement | HTMLButtonElement>
   ) => {
     e.preventDefault();
     try {
+      setError("");
       await dispatch(login({ email, password })).unwrap();
-    } catch (err) {
-      console.error("Something went wrong!", err);
-    } finally {
       setEmail("");
       setPassword("");
+      navigate(ROUTES.recentArticles(), { replace: true });
+    } catch (err) {
+      setError((err as { message: string })?.message);
+      setPassword("");
+      if (passwordTextInputRef.current) {
+        (passwordTextInputRef.current as HTMLInputElement).focus();
+      }
     }
   };
-
-  // handle redirect to homepage after successful login
-  useEffect(() => {
-    if (prevAuthError.current === null && authError === false) {
-      navigate(ROUTES.recentArticles(), { replace: true });
-    }
-    prevAuthError.current = authError;
-  }, [authError]);
 
   return (
     <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100 mx-auto">
@@ -59,12 +56,18 @@ const Login = () => {
                 <span className="label-text">Password</span>
               </label>
               <input
+                ref={passwordTextInputRef}
                 type="password"
                 placeholder="theBestPasswordInTheWorld123"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="input input-bordered"
               />
+              {error && (
+                <label className="label">
+                  <ErrorText className="label-text-alt">{error}</ErrorText>
+                </label>
+              )}
             </div>
             <div className="flex justify-end">
               <div className="form-control mt-6">

@@ -1,22 +1,28 @@
 import { API_KEY, API_ROOT } from "../constants";
+import { ROUTES } from "../Routes/routes";
 
 let accessToken: string | null = null;
 
-const handleErrors = async (res: Response) => {
-  if (res.ok) {
-    if (res.status === 200) {
-      return res.json();
+const processResponse = async (res: Response) => {
+  const data = await res.json();
+
+  if (!res.ok) {
+    const errorMessage: string | undefined = data?.message;
+    const errorStatus = res.status;
+
+    if (errorStatus === 400) {
+      return Promise.reject(errorMessage);
+    } else if (errorStatus === 401 || errorStatus === 403) {
+      // for the purpose of the simple project, we redirect both
+      // the ApiKeyInvalid and the Unauthorized errors to 404 page...
+      history.replaceState(null, "", ROUTES.notFound());
+      return Promise.resolve();
     }
-    return {};
-  } else if (res.status === 400) {
-    const jsonResponse = await res.json();
-    throw new Error(jsonResponse.message);
-  } else if (res.status === 401) {
-    // TODO: handle ApiKeyInvalidError
-    const jsonResponse = await res.json();
-    throw new Error(jsonResponse.message);
+
+    return Promise.reject();
   }
-  // TODO: handle all failed requests
+
+  return data;
 };
 
 const getAuthorizationHeader = (): HeadersInit => {
@@ -43,20 +49,13 @@ export const requests = {
     fetch(`${API_ROOT}${url}`, {
       method: "DELETE",
       headers: { ...getCommonHeaders(), ...getAuthorizationHeader() },
-    }).then(handleErrors),
-  // options: (url: string) =>
-  //   superagent
-  //     .options(`${API_ROOT}${url}`)
-  //     .use(setCommonHeaders)
-  //     .use(setAuthorizationHeader),
-  // .catch(handleErrors)
-  // .then(getResponseBody),
+    }).then(processResponse),
   // TODO: add searchParams funcionality
   get: (url: string) =>
     fetch(`${API_ROOT}${url}`, {
       method: "GET",
       headers: { ...getCommonHeaders(), ...getAuthorizationHeader() },
-    }).then(handleErrors),
+    }).then(processResponse),
   patch: (url: string, body: object) =>
     fetch(`${API_ROOT}${url}`, {
       method: "PATCH",
@@ -68,7 +67,7 @@ export const requests = {
       method: "POST",
       headers: { ...getCommonHeaders(), ...getAuthorizationHeader() },
       body: JSON.stringify(body),
-    }).then(handleErrors),
+    }).then(processResponse),
   // .then(getResponseBody),
   // fileUpload: (url: string, file: any) => {
   //   // file size <= 99 MB

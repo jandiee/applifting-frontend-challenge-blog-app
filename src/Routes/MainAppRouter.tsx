@@ -32,7 +32,7 @@ const MainAppRouter = () => {
         </Route>
         <Route path={ROUTES.about()} element={<About />} />
       </Route>
-      <Route path={ROUTES.notFound()} element={<NotFound />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
