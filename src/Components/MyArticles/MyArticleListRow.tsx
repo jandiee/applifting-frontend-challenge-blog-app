@@ -18,6 +18,9 @@ const MyArticleListRow = ({ article, onDelete }: Props) => {
 
   useEffect(() => {
     (async () => {
+      // this is REALLY bad
+      // each of the article PREVIEW fetching its detail just to show it in the table
+      // reasoning why I decided to leave it like this is in README
       const response = await agent.Articles.detail(article.articleId);
       setArticleDetail(response);
     })();

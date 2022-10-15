@@ -38,7 +38,7 @@ const ArticleEdit = () => {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4">
       <div className="flex justify-start gap-4">
         <Header>
           {action === "NEW" ? "Create new article" : "Edit article"}
@@ -51,7 +51,7 @@ const ArticleEdit = () => {
         </button>
       </div>
 
-      <main>
+      <main className="space-y-4">
         {/* this expression avoids the need to use another state variable 'isLoading' */}
         {/* except we cannot use this for loader when saving the article... */}
         {articleId && Object.keys(articleDetail).length === 0 ? (

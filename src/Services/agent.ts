@@ -6,7 +6,7 @@ const Authentication = {
 };
 
 const Articles = {
-  all: () => requests.get("articles"),
+  all: () => requests.get("articles"), // TODO: pagination
   create: (articleDetail: object) => requests.post("articles", articleDetail),
   detail: (articleId: string) => requests.get(`articles/${articleId}`),
   delete: (articleId: string) => requests.del(`articles/${articleId}`),
