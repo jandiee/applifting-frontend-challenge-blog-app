@@ -4,9 +4,16 @@ let accessToken: string | null = null;
 
 const handleErrors = async (res: Response) => {
   if (res.ok) {
-    return res.json();
+    if (res.status === 200) {
+      return res.json();
+    }
+    return {};
   } else if (res.status === 400) {
     // TODO: handle all failed requests!!!
+    const jsonResponse = await res.json();
+    throw new Error(jsonResponse.message);
+  } else if (res.status === 401) {
+    // TODO: handle ApiKeyInvalidError!!!
     const jsonResponse = await res.json();
     throw new Error(jsonResponse.message);
   }
@@ -36,14 +43,7 @@ export const requests = {
     fetch(`${API_ROOT}${url}`, {
       method: "DELETE",
       headers: { ...getCommonHeaders(), ...getAuthorizationHeader() },
-    }),
-  // del2: (url: string) =>
-  //   superagent
-  //     .del(`${API_ROOT}${url}`)
-  //     .use(setCommonHeaders)
-  //     .use(setAuthorizationHeader),
-  //     // .catch(handleErrors)
-  //     // .then(getResponseBody),
+    }).then(handleErrors),
   // options: (url: string) =>
   //   superagent
   //     .options(`${API_ROOT}${url}`)
@@ -51,14 +51,12 @@ export const requests = {
   //     .use(setAuthorizationHeader),
   // .catch(handleErrors)
   // .then(getResponseBody),
-  // get: (url: string, query: SuperagentQuery = "") =>
-  //   superagent
-  //     .get(`${API_ROOT}${url}`)
-  //     .query(query)
-  //     .use(setCommonHeaders)
-  //     .use(setAuthorizationHeader),
-  // .catch(handleErrors)
-  // .then(getResponseBody),
+  // TODO: add searchParams funcionality
+  get: (url: string) =>
+    fetch(`${API_ROOT}${url}`, {
+      method: "GET",
+      headers: { ...getCommonHeaders(), ...getAuthorizationHeader() },
+    }).then(handleErrors),
   // put: (url: string, body: object) =>
   //   superagent
   //     .put(`${API_ROOT}${url}`)
@@ -68,36 +66,18 @@ export const requests = {
   //     .use(setAuthorizationHeader),
   // .catch(handleErrors)
   // .then(getResponseBody),
-  patch: (url: string, body: BodyInit) =>
+  patch: (url: string, body: object) =>
     fetch(`${API_ROOT}${url}`, {
       method: "PATCH",
       headers: { ...getCommonHeaders(), ...getAuthorizationHeader() },
-      body,
+      body: JSON.stringify(body),
     }),
-  // patch2: (url: string, body: object) =>
-  //   superagent
-  //     .patch(`${API_ROOT}${url}`)
-  //     .type("form")
-  //     .send(body)
-  //     .use(setCommonHeaders)
-  //     .use(setAuthorizationHeader),
-  // .catch(handleErrors)
-  // .then(getResponseBody),
   post: (url: string, body?: object) =>
     fetch(`${API_ROOT}${url}`, {
       method: "POST",
       headers: { ...getCommonHeaders(), ...getAuthorizationHeader() },
       body: JSON.stringify(body),
     }).then(handleErrors),
-  // .then(getResponseBody),
-  // post2: (url: string, body?: object) =>
-  //   superagent
-  //     .post(`${API_ROOT}${url}`)
-  //     .type("form")
-  //     .send(body)
-  //     .use(setCommonHeaders)
-  //     .use(setAuthorizationHeader),
-  // .catch(handleErrors)
   // .then(getResponseBody),
   // fileUpload: (url: string, file: any) => {
   //   // file size <= 99 MB

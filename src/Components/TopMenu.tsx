@@ -11,10 +11,10 @@ const TopMenu = () => {
         <Logo title="logo" />
         <ul className="menu menu-horizontal">
           <li>
-            <NavLink to={ROUTES.recentArticles}>Recent articles</NavLink>
+            <NavLink to={ROUTES.recentArticles()}>Recent articles</NavLink>
           </li>
           <li>
-            <NavLink to={ROUTES.about}>About</NavLink>
+            <NavLink to={ROUTES.about()}>About</NavLink>
           </li>
         </ul>
       </div>

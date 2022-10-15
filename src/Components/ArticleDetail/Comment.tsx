@@ -2,7 +2,17 @@ import React from "react";
 import { HiChevronDown, HiChevronUp, HiUserCircle } from "react-icons/hi";
 import SoftText from "../utils/SoftText";
 
-const Comment = () => {
+type Props = {
+  comment: {
+    articleId: string;
+    commentId: string;
+    author: string;
+    content: string;
+    score: number;
+  };
+};
+
+const Comment = ({ comment }: Props) => {
   return (
     <div className="flex gap-4">
       <div>
@@ -11,23 +21,15 @@ const Comment = () => {
 
       <div className="space-y-2">
         <div className="flex gap-2 items-baseline">
-          <span className="font-bold text-sm">Lily Hawkins</span>
-          <SoftText>2 hours ago</SoftText>
+          <span className="font-bold text-sm">{comment.author}</span>
+          {/* <SoftText>2 hours ago</SoftText> */}
         </div>
 
-        <div className="text-sm text-gray-900">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sodales
-          nulla non sapien porttitor, ac pharetra nisi auctor. Phasellus quis
-          pharetra libero. Proin sagittis tellus dui, sit amet bibendum nibh
-          elementum at. Ut eleifend magna sed dictum pulvinar. Nullam mollis
-          ipsum nisi, ac pharetra est fringilla at. In semper pharetra arcu,
-          eget ultricies erat maximus auctor. Ut cursus et dui ac euismod.
-          Aenean condimentum leo et odio sagittis ultricies.
-        </div>
+        <div className="text-sm text-gray-900">{comment.content}</div>
 
         <SoftText size="sm">
           <div className="flex items-center divide-x-2 gap-x-2">
-            <span>+3</span>
+            <span>{comment.score}</span>
             <span className="pl-2">
               <HiChevronUp />
             </span>

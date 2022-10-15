@@ -5,4 +5,13 @@ const Authentication = {
     requests.post("login", { username: email, password }),
 };
 
-export default { Authentication };
+const Articles = {
+  all: () => requests.get("articles"),
+  create: (articleDetail: object) => requests.post("articles", articleDetail),
+  detail: (articleId: string) => requests.get(`articles/${articleId}`),
+  delete: (articleId: string) => requests.del(`articles/${articleId}`),
+  update: (articleId: string, articleDetail: object) =>
+    requests.patch(`articles/${articleId}`, articleDetail),
+};
+
+export default { Authentication, Articles };

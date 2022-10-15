@@ -13,14 +13,14 @@ const TopMenuAuth = () => {
         <>
           <ul className="menu menu-horizontal">
             <li>
-              <NavLink to={ROUTES.myArticles}>My articles</NavLink>
+              <NavLink to={ROUTES.myArticles()}>My articles</NavLink>
             </li>
             <li>
-              <NavLink to={ROUTES.newArticle}>Create article</NavLink>
+              <NavLink to={ROUTES.newArticle()}>Create article</NavLink>
             </li>
           </ul>
-          <div className="dropdown">
-            <label tabIndex={0} className="m-1">
+          <div className="dropdown h-9">
+            <label tabIndex={0} className="cursor-pointer p-0">
               <HiUserCircle size={36} />
             </label>
             <ul
@@ -38,7 +38,7 @@ const TopMenuAuth = () => {
       {!isLoggedIn && (
         <ul className="menu menu-horizontal">
           <li>
-            <NavLink to={ROUTES.login}>
+            <NavLink to={ROUTES.login()}>
               Log in
               <HiArrowSmRight />
             </NavLink>

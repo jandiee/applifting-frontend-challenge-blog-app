@@ -7,7 +7,7 @@ type Props = {
 
 const PageContentWrapper = ({ children }: Props) => {
   return (
-    <div className="my-8">
+    <div className="my-8 mx-8">
       <ContentWrapper>{children}</ContentWrapper>
     </div>
   );

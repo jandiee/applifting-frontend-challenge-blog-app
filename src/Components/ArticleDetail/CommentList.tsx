@@ -3,11 +3,25 @@ import { HiUserCircle } from "react-icons/hi";
 import Header from "../Header";
 import Comment from "./Comment";
 
-const CommentList = () => {
+type Props = {
+  comments: {
+    articleId: string;
+    commentId: string;
+    author: string;
+    content: string;
+    score: number;
+  }[];
+};
+
+const CommentList = ({ comments }: Props) => {
+  if (comments.length === 0) {
+    return <div className="w-0 h-0 hidden"></div>;
+  }
+
   return (
     <div className="space-y-4">
       <Header bold size="base">
-        Comments (4)
+        Comments ({comments.length})
       </Header>
 
       <div className="flex gap-4 items-center">
@@ -22,9 +36,13 @@ const CommentList = () => {
         />
       </div>
 
+      {comments.map((item) => (
+        <Comment key={item.commentId} comment={item} />
+      ))}
+
+      {/* <Comment />
       <Comment />
-      <Comment />
-      <Comment />
+      <Comment /> */}
     </div>
   );
 };

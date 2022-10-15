@@ -1,37 +1,70 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 import TextTruncate from "react-text-truncate";
+import { ROUTES } from "../../Routes/routes";
+import agent from "../../Services/agent";
 
-const MyArticleListRow = () => {
+type Props = {
+  article: TArticle;
+  onDelete: () => void;
+};
+
+const MyArticleListRow = ({ article, onDelete }: Props) => {
+  const [articleDetail, setArticleDetail] = useState<TArticleDetail>();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    (async () => {
+      const response = await agent.Articles.detail(article.articleId);
+      console.log(response);
+      setArticleDetail(response);
+    })();
+  }, []);
+
+  const handleDelete = async () => {
+    const response = await agent.Articles.delete(article.articleId);
+    console.log("delete response", response);
+    onDelete();
+  };
+
+  const handleEdit = () => {
+    navigate(ROUTES.editArticle(article.articleId));
+  };
+
+  if (articleDetail === undefined) {
+    return <tr></tr>;
+  }
+
   return (
     <tr>
-      <th>
+      <td>
         <input type="checkbox" className="checkbox" />
-      </th>
-      <td>Why do cats have whiskers</td>
+      </td>
+      <td>{articleDetail.title ?? "No title"}</td>
       <td className="max-w-xs">
         <TextTruncate
           line={1}
-          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sodales
-        nulla non sapien porttitor, ac pharetra nisi auctor. Phasellus quis
-        pharetra libero. Proin sagittis tellus dui, sit amet bibendum nibh
-        elementum at. Ut eleifend magna sed dictum pulvinar. Nullam mollis ipsum
-        nisi, ac pharetra est fringilla at. In semper pharetra arcu, eget
-        ultricies erat maximus auctor. Ut cursus et dui ac euismod. Aenean
-        condimentum leo et odio sagittis ultricies. Ut vel elementum risus, at
-        venenatis ipsum. Sed et facilisis felis, id pharetra lorem. Mauris
-        interdum nisl ut neque dictum commodo. Nullam ut erat a orci mattis
-        aliquet. Praesent eu gravida lectus. Quisque lorem nisi, sagittis ut
-        lorem et, suscipit convallis dui."
+          text={articleDetail.perex ?? articleDetail.content}
           textElement="span"
         />
       </td>
-      <td>Elizabeth Strain</td>
-      <td>4</td>
+      <td>No author</td>
+      <td>{articleDetail.comments.length}</td>
       <td>
         <div className="flex items-center gap-4">
-          <HiOutlinePencil size={18} />
-          <HiOutlineTrash size={18} />
+          <div
+            className="btn btn-link text-gray-900"
+            onClick={() => handleEdit()}
+          >
+            <HiOutlinePencil size={18} />
+          </div>
+          <div
+            className="btn btn-link text-gray-900"
+            onClick={() => handleDelete()}
+          >
+            <HiOutlineTrash size={18} />
+          </div>
         </div>
       </td>
     </tr>

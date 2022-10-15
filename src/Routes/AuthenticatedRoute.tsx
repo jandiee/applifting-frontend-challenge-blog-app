@@ -9,7 +9,7 @@ const AuthenticatedRoute = (props: RouteProps) => {
   if (!isLoggedIn) {
     return (
       <Navigate
-        to={ROUTES.recentArticles}
+        to={ROUTES.recentArticles()}
         replace={true}
         state={{ redirectedFrom: props.path }}
       />

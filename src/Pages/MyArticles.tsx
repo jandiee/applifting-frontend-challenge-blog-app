@@ -9,12 +9,13 @@ const MyArticles = () => {
     <div className="space-y-8">
       <div className="flex justify-start gap-4">
         <Header>My articles</Header>
-        <NavLink to={ROUTES.newArticle} className="btn btn-primary btn-sm">
+        <NavLink to={ROUTES.newArticle()} className="btn btn-primary btn-sm">
           Create new article
         </NavLink>
       </div>
-
-      <MyArticlesList />
+      <main>
+        <MyArticlesList />
+      </main>
     </div>
   );
 };
