@@ -52,57 +52,65 @@ const ArticleEdit = () => {
       </div>
 
       <main>
-        <div className="form-control w-full max-w-xs">
-          <label className="label">
-            <span className="label-text">Article title</span>
-          </label>
-          <input
-            type="text"
-            placeholder="My First Article"
-            value={articleDetail.title}
-            onChange={(e) =>
-              setArticleDetail((old) => ({ ...old, title: e.target.value }))
-            }
-            className="input input-bordered w-full max-w-xs"
-          />
-        </div>
+        {/* this expression avoids the need to use another state variable 'isLoading' */}
+        {/* except we cannot use this for loader when saving the article... */}
+        {articleId && Object.keys(articleDetail).length === 0 ? (
+          <div></div>
+        ) : (
+          <>
+            <div className="form-control w-full max-w-xs">
+              <label className="label">
+                <span className="label-text">Article title</span>
+              </label>
+              <input
+                type="text"
+                placeholder="My First Article"
+                value={articleDetail.title || ""}
+                onChange={(e) =>
+                  setArticleDetail((old) => ({ ...old, title: e.target.value }))
+                }
+                className="input input-bordered w-full max-w-xs"
+              />
+            </div>
 
-        <div className="form-control w-full max-w-xs">
-          <label className="label">
-            <span className="label-text">Featured Image</span>
-          </label>
-          <input type="file" className="w-full max-w-xs btn-xs p-0" />
-        </div>
+            <div className="form-control w-full max-w-xs">
+              <label className="label">
+                <span className="label-text">Featured Image</span>
+              </label>
+              <input type="file" className="w-full max-w-xs btn-xs p-0" />
+            </div>
 
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text">Perex</span>
-          </label>
-          <textarea
-            placeholder="Once upon a time..."
-            value={articleDetail.perex}
-            onChange={(e) =>
-              setArticleDetail((old) => ({ ...old, perex: e.target.value }))
-            }
-            className="input input-bordered w-full h-32"
-          ></textarea>
-        </div>
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text">Perex</span>
+              </label>
+              <textarea
+                placeholder="Once upon a time..."
+                value={articleDetail.perex || ""}
+                onChange={(e) =>
+                  setArticleDetail((old) => ({ ...old, perex: e.target.value }))
+                }
+                className="input input-bordered w-full h-32"
+              ></textarea>
+            </div>
 
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text">Content</span>
-          </label>
-          <MDEditor
-            value={articleDetail.content}
-            placeholder="Supports Markdown, yeah!"
-            onChange={(val) =>
-              setArticleDetail((old) => ({
-                ...old,
-                content: val,
-              }))
-            }
-          />
-        </div>
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text">Content</span>
+              </label>
+              <MDEditor
+                value={articleDetail.content || ""}
+                placeholder="Supports Markdown, yeah!"
+                onChange={(val) =>
+                  setArticleDetail((old) => ({
+                    ...old,
+                    content: val,
+                  }))
+                }
+              />
+            </div>
+          </>
+        )}
       </main>
     </div>
   );

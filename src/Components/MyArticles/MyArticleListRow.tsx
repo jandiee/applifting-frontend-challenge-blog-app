@@ -41,15 +41,15 @@ const MyArticleListRow = ({ article, onDelete }: Props) => {
       <td>
         <input type="checkbox" className="checkbox" />
       </td>
-      <td>{articleDetail.title ?? "No title"}</td>
+      <td>{articleDetail.title || "No title"}</td>
       <td className="max-w-xs">
         <TextTruncate
           line={1}
-          text={articleDetail.perex ?? articleDetail.content}
+          text={articleDetail.perex || articleDetail.content}
           textElement="span"
         />
       </td>
-      <td>{tenantName ?? "Author unknown"}</td>
+      <td>{tenantName || "Author unknown"}</td>
       <td>{articleDetail.comments.length}</td>
       <td>
         <div className="flex items-center gap-4">

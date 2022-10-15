@@ -17,6 +17,11 @@ const ArticlePreview = ({ article }: Props) => {
     navigate(ROUTES.articleDetail(article.articleId));
   };
 
+  // README:
+  // I would like to fetch the number of comments on the article, but
+  // it would mean to call a different endpoint for each of the article (even just for the preview!)
+  // Better solution would be to redesign the backend API for this purpose...
+
   return (
     <div className="flex flex-nowrap gap-8 max-h-48">
       {/* TODO: fetch img using imageId */}
@@ -27,11 +32,12 @@ const ArticlePreview = ({ article }: Props) => {
         style={{ width: 200, height: 200 }}
       />
       <div className="space-y-2">
-        <Header size="xl">{article.title ?? "-"}</Header>
+        <Header size="xl">{article.title || "-"}</Header>
         <SoftText>
           <div className="flex gap-2">
-            <span>??? Elizabeth Strain ???</span>
-            <span>&#x2022;</span>
+            {/* An article doesn't have an author in BE design */}
+            {/* <span>??? Elizabeth Strain ???</span>
+            <span>&#x2022;</span> */}
             <span>{dayjs(article.createdAt).format("l")}</span>
           </div>
         </SoftText>
@@ -48,8 +54,8 @@ const ArticlePreview = ({ article }: Props) => {
           >
             Read whole article
           </button>
-          {/* TODO: fetch articleDetail */}
-          <span>4 comments</span>
+          {/* reason in README at the top */}
+          {/* <span>4 comments</span> */}
         </div>
       </div>
     </div>

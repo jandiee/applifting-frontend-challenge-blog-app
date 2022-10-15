@@ -12,7 +12,6 @@ import ReactMarkdown from "react-markdown";
 
 const ArticleDetail = () => {
   const { id: articleId } = useParams();
-  // TODO: type from MyArticleListRow
   const [articleDetail, setArticleDetail] = useState<Partial<TArticleDetail>>({
     comments: [],
   });
@@ -36,7 +35,7 @@ const ArticleDetail = () => {
   }, []);
 
   if (!articleId) {
-    // TODO: handle this situation - ?not be possible?
+    // TODO: handle this situation - ?should not be possible?
     return <div></div>;
   }
 
