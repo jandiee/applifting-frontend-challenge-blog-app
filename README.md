@@ -67,4 +67,4 @@ When fetching the article details, once again I would use 2 api calls. First, fe
 
 ## TODOs
 
-* There are some left TODOs in the code comments - those are
+* There are some left TODOs in the code comments - those are left on purpose, are described here in README and are left in case I'd like to play with the app some day in the future.
