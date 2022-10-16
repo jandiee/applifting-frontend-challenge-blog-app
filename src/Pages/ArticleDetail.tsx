@@ -11,9 +11,9 @@ import agent from "../Services/agent";
 
 const ArticleDetail = () => {
   const { id: articleId } = useParams();
-  const [articleDetail, setArticleDetail] = useState<Partial<TArticleDetail>>({
-    comments: [],
-  });
+  const [articleDetail, setArticleDetail] = useState<Partial<TArticleDetail>>(
+    {}
+  );
 
   useEffect(() => {
     (async () => {
@@ -29,6 +29,10 @@ const ArticleDetail = () => {
     //     setArticleDetail((old) => ({ ...old, content: text }));
     //   });
   }, [articleId]);
+
+  const updateComments = (newComments: TArticleComment[]) => {
+    setArticleDetail((old) => ({ ...old, comments: newComments }));
+  };
 
   if (Object.keys(articleDetail).length === 0) {
     // TODO: loader
@@ -62,8 +66,12 @@ const ArticleDetail = () => {
           )}
         </main>
         <div className="border-b-2 border-gray-200"></div>
-        {articleDetail.comments && (
-          <CommentList comments={articleDetail.comments} />
+        {articleId && (
+          <CommentList
+            articleId={articleId}
+            comments={articleDetail.comments || []}
+            onCommentUpdate={(comments) => updateComments(comments)}
+          />
         )}
       </div>
 

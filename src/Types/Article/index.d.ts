@@ -1,3 +1,12 @@
+type TArticleComment = {
+  articleId: string;
+  createdAt: string;
+  commentId: string;
+  author: string;
+  content: string;
+  score: number;
+};
+
 type TArticleDetail = {
   articleId: string;
   author: string;
@@ -6,13 +15,7 @@ type TArticleDetail = {
   imageId: string;
   image: string;
   content?: string;
-  comments: {
-    articleId: string;
-    commentId: string;
-    author: string;
-    content: string;
-    score: number;
-  }[];
+  comments: TArticleComment[];
 };
 
 type TArticle = {

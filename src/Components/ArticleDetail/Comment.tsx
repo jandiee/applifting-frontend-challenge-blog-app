@@ -1,18 +1,24 @@
 import React from "react";
 import { HiChevronDown, HiChevronUp, HiUserCircle } from "react-icons/hi";
+import agent from "../../Services/agent";
 import SoftText from "../utils/SoftText";
 
 type Props = {
-  comment: {
-    articleId: string;
-    commentId: string;
-    author: string;
-    content: string;
-    score: number;
-  };
+  comment: TArticleComment;
+  onCommentVote: (comment: TArticleComment) => void;
 };
 
-const Comment = ({ comment }: Props) => {
+const Comment = ({ comment, onCommentVote }: Props) => {
+  const handleVote = async (type: "up" | "down") => {
+    let response;
+    if (type === "up") {
+      response = await agent.Comments.voteUp(comment.commentId);
+    } else {
+      response = await agent.Comments.voteDown(comment.commentId);
+    }
+    onCommentVote(response as TArticleComment);
+  };
+
   return (
     <div className="flex gap-4">
       <div>
@@ -30,12 +36,22 @@ const Comment = ({ comment }: Props) => {
         <SoftText size="sm">
           <div className="flex items-center divide-x-2 gap-x-2">
             <span>{comment.score}</span>
-            <span className="pl-2">
-              <HiChevronUp />
-            </span>
-            <span className="pl-2">
-              <HiChevronDown />
-            </span>
+            <button
+              onClick={() => handleVote("up")}
+              className="flex items-center"
+            >
+              <span className="pl-2">
+                <HiChevronUp />
+              </span>
+            </button>
+            <button
+              onClick={() => handleVote("down")}
+              className="flex items-center"
+            >
+              <span className="pl-2">
+                <HiChevronDown />
+              </span>
+            </button>
           </div>
         </SoftText>
       </div>

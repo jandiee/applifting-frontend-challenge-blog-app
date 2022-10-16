@@ -14,4 +14,11 @@ const Articles = {
     requests.patch(`articles/${articleId}`, articleDetail),
 };
 
-export default { Authentication, Articles };
+const Comments = {
+  create: (commentBody: object) => requests.post("comments", commentBody),
+  voteUp: (commentId: string) => requests.post(`comments/${commentId}/vote/up`),
+  voteDown: (commentId: string) =>
+    requests.post(`comments/${commentId}/vote/down`),
+};
+
+export default { Authentication, Articles, Comments };
