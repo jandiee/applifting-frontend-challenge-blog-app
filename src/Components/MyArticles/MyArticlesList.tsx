@@ -1,11 +1,10 @@
+import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import agent from "../../Services/agent";
 import MyArticleListRow from "./MyArticleListRow";
 
 const MyArticlesList = () => {
   const [articles, setArticles] = useState<TArticle[]>([]);
-  // TODO: checkboxes in table functionality
-  // const [selectedArticles, setSelectedArticles] = useState<string[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -20,31 +19,36 @@ const MyArticlesList = () => {
 
   return (
     <div className="overflow-x-auto">
-      <table className="table table-compact w-full">
-        <thead>
-          <tr>
-            <th>
-              <input type="checkbox" className="checkbox" />
-            </th>
-            <th>Article title</th>
-            <th>Perex</th>
-            <th>Author</th>
-            <th># of comments</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {articles.map((item) => {
-            return (
-              <MyArticleListRow
-                key={item.articleId}
-                article={item}
-                onDelete={() => handleArticleDelete(item.articleId)}
-              />
-            );
-          })}
-        </tbody>
-      </table>
+      {articles.length > 0 ? (
+        <table className="table table-compact w-full">
+          <thead>
+            <tr>
+              <th>Article title</th>
+              <th>Perex</th>
+              <th>Author</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {articles
+              .sort(
+                (a: TArticle, b: TArticle) =>
+                  dayjs(b.createdAt).unix() - dayjs(a.createdAt).unix()
+              )
+              .map((item) => {
+                return (
+                  <MyArticleListRow
+                    key={item.articleId}
+                    article={item}
+                    onDelete={() => handleArticleDelete(item.articleId)}
+                  />
+                );
+              })}
+          </tbody>
+        </table>
+      ) : (
+        <div className="flex items-center justify-center">No articles</div>
+      )}
     </div>
   );
 };

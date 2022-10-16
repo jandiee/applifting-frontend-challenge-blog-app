@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import TextTruncate from "react-text-truncate";
 import { useAppSelector } from "../../hooks";
+import NavLink from "../../Routes/NavLink";
 import { ROUTES } from "../../Routes/routes";
 import agent from "../../Services/agent";
 
@@ -12,19 +13,8 @@ type Props = {
 };
 
 const MyArticleListRow = ({ article, onDelete }: Props) => {
-  const [articleDetail, setArticleDetail] = useState<TArticleDetail>();
   const navigate = useNavigate();
   const tenantName = useAppSelector((state) => state.auth.tenantName);
-
-  useEffect(() => {
-    (async () => {
-      // this is REALLY bad
-      // each of the article PREVIEW fetching its detail just to show it in the table
-      // reasoning why I decided to leave it like this is in README
-      const response = await agent.Articles.detail(article.articleId);
-      setArticleDetail(response);
-    })();
-  }, []);
 
   const handleDelete = async () => {
     await agent.Articles.delete(article.articleId);
@@ -35,25 +25,23 @@ const MyArticleListRow = ({ article, onDelete }: Props) => {
     navigate(ROUTES.editArticle(article.articleId));
   };
 
-  if (articleDetail === undefined) {
-    return <tr></tr>;
-  }
-
   return (
     <tr>
       <td>
-        <input type="checkbox" className="checkbox" />
+        <NavLink to={ROUTES.articleDetail(article.articleId)}>
+          <span className="link link-neutral">
+            {article.title || "No title"}
+          </span>
+        </NavLink>
       </td>
-      <td>{articleDetail.title || "No title"}</td>
       <td className="max-w-xs">
         <TextTruncate
           line={1}
-          text={articleDetail.perex || articleDetail.content}
+          text={article.perex || "No perex"}
           textElement="span"
         />
       </td>
       <td>{tenantName || "Author unknown"}</td>
-      <td>{articleDetail.comments.length}</td>
       <td>
         <div className="flex items-center gap-4">
           <div

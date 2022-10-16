@@ -1,7 +1,7 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import Header from "../Components/Header";
 import MyArticlesList from "../Components/MyArticles/MyArticlesList";
+import NavLink from "../Routes/NavLink";
 import { ROUTES } from "../Routes/routes";
 
 const MyArticles = () => {
