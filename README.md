@@ -31,6 +31,12 @@ Whole authentication in the app is implemented only using the app state. No auth
 
 I haven't implemented the uploading / fetching / editing image functionality in the whole app. Everything is ready for it, I've highlighted some of the functionality using comments directly in the components' source files, but I don't really have time to play with the image API endpoint and adding the upload image feature. I believe I've already proved it would not be a problem for me. Image functionality is not described in the FE Challenge description and I simply don't have time for it, sorry.
 
+#### Proposed image implementation
+
+I would add "Upload image" button to the Create Article form. In the publishing process, the image would be first uploaded and the `imageId` from the response of the POST API call would be then used in the article details and the POST API call to create an article would happen just after saving this imageId. That way, I could save imageId of a newly uploaded image to an article in one button click (2 api calls).
+
+When fetching the article details, once again I would use 2 api calls. First, fetch the article details including the imageId field and then fetch the image. Just after both this call, show the article details (loader up to this moment).
+
 ### Recent Articles
 
 * No number of comments on the main page, no author - API doesn't provide this functionality. More on this above.
@@ -53,3 +59,12 @@ I haven't implemented the uploading / fetching / editing image functionality in 
 ## Code documentation
 
 * The source code is not really commented. I believe the code itself is self-explanatory enough and only small parts of the code is described using comments.
+
+## Testing
+
+* No tests provided. I know a bit of Cypress and a bit of Jest testing processes, but honestly I've never used neither of them in production app. I believe that I could write some meaningful tests with a little bit of time, but since I genuinely wanna show my current skills, I decided not to provide them for now.
+* Whole app is tested only by hand and manual usage.
+
+## TODOs
+
+* There are some left TODOs in the code comments - those are
