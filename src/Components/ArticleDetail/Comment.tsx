@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import React from "react";
 import { HiChevronDown, HiChevronUp, HiUserCircle } from "react-icons/hi";
 import agent from "../../Services/agent";
@@ -28,7 +29,7 @@ const Comment = ({ comment, onCommentVote }: Props) => {
       <div className="space-y-2">
         <div className="flex gap-2 items-baseline">
           <span className="font-bold text-sm">{comment.author}</span>
-          {/* <SoftText>2 hours ago</SoftText> */}
+          <SoftText>{dayjs(comment.createdAt).fromNow()}</SoftText>
         </div>
 
         <div className="text-sm text-gray-900">{comment.content}</div>

@@ -5,8 +5,10 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(localizedFormat);
+dayjs.extend(relativeTime);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

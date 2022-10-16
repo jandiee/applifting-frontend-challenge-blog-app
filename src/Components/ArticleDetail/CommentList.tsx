@@ -13,7 +13,6 @@ type Props = {
 const CommentList = ({ articleId, comments, onCommentUpdate }: Props) => {
   const onCommentCreate = (newComment: TArticleComment) => {
     const newComments = [newComment, ...comments];
-    console.log(newComments);
     onCommentUpdate(newComments);
   };
 
