@@ -4,6 +4,7 @@ import MDEditor from "@uiw/react-md-editor";
 import Header from "../Components/Header";
 import agent from "../Services/agent";
 import { ROUTES } from "../Routes/routes";
+import ErrorText from "../Components/utils/ErrorText";
 
 const ArticleEdit = () => {
   const params = useParams();
@@ -14,6 +15,7 @@ const ArticleEdit = () => {
     {}
   );
   const [action, setAction] = useState<"EDIT" | "NEW">("NEW");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     // Fetch only on article edit, not on article new
@@ -27,6 +29,15 @@ const ArticleEdit = () => {
   }, []);
 
   const handlePublish = async () => {
+    if (
+      !articleDetail.title ||
+      !articleDetail.perex ||
+      !articleDetail.content
+    ) {
+      setError("Please provide all fields values!");
+      return;
+    }
+
     if (action === "EDIT") {
       // edit article
       await agent.Articles.update(articleId as string, articleDetail);
@@ -58,6 +69,7 @@ const ArticleEdit = () => {
           <div></div>
         ) : (
           <>
+            {error && <ErrorText size="sm">{error}</ErrorText>}
             <div className="form-control w-full max-w-xs">
               <label className="label">
                 <span className="label-text">Article title</span>
@@ -65,19 +77,16 @@ const ArticleEdit = () => {
               <input
                 type="text"
                 placeholder="My First Article"
+                required
                 value={articleDetail.title || ""}
                 onChange={(e) =>
-                  setArticleDetail((old) => ({ ...old, title: e.target.value }))
+                  setArticleDetail((old) => ({
+                    ...old,
+                    title: e.target.value,
+                  }))
                 }
                 className="input input-bordered w-full max-w-xs"
               />
-            </div>
-
-            <div className="form-control w-full max-w-xs">
-              <label className="label">
-                <span className="label-text">Featured Image</span>
-              </label>
-              <input type="file" className="w-full max-w-xs btn-xs p-0" />
             </div>
 
             <div className="form-control w-full">
@@ -87,8 +96,12 @@ const ArticleEdit = () => {
               <textarea
                 placeholder="Once upon a time..."
                 value={articleDetail.perex || ""}
+                required
                 onChange={(e) =>
-                  setArticleDetail((old) => ({ ...old, perex: e.target.value }))
+                  setArticleDetail((old) => ({
+                    ...old,
+                    perex: e.target.value,
+                  }))
                 }
                 className="input input-bordered w-full h-32"
               ></textarea>

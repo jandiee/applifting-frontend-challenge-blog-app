@@ -18,6 +18,12 @@ const Login = () => {
     e: React.FormEvent<HTMLFormElement | HTMLButtonElement>
   ) => {
     e.preventDefault();
+
+    if (!email || !password) {
+      setError("Please provide both email and password!");
+      return;
+    }
+
     try {
       setError("");
       await dispatch(login({ email, password })).unwrap();
@@ -46,6 +52,7 @@ const Login = () => {
               <input
                 type="text"
                 placeholder="bestGuy"
+                required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="input input-bordered"
@@ -58,6 +65,7 @@ const Login = () => {
               <input
                 ref={passwordTextInputRef}
                 type="password"
+                required
                 placeholder="theBestPasswordInTheWorld123"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

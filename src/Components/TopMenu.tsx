@@ -8,7 +8,9 @@ const TopMenu = () => {
   return (
     <div className="flex justify-between items-center">
       <div className="flex justify-start items-center gap-8">
-        <Logo title="logo" />
+        <NavLink to={ROUTES.recentArticles()}>
+          <Logo title="logo" />
+        </NavLink>
         <ul className="menu menu-horizontal">
           <li>
             <NavLink to={ROUTES.recentArticles()}>Recent articles</NavLink>

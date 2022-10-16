@@ -4,6 +4,10 @@ import { ROUTES } from "../Routes/routes";
 let accessToken: string | null = null;
 
 const processResponse = async (res: Response) => {
+  if (res.ok && res.status === 204) {
+    return;
+  }
+
   const data = await res.json();
 
   if (!res.ok) {
