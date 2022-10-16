@@ -1,5 +1,9 @@
 # Applifting (Not That) Mighty Blog App
 
+## Assignment Description
+
+**https://github.com/Applifting/fullstack-exercise/blob/master/assignment.md**
+
 ## Stack
 
 * React (+ webpack and other funcionality under the hood - using create-react-app script)
