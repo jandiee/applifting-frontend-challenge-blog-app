@@ -1,11 +1,20 @@
 import React from "react";
 import { HiArrowSmRight, HiUserCircle } from "react-icons/hi";
-import { useAppSelector } from "../hooks";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import NavLink from "../Routes/NavLink";
 import { ROUTES } from "../Routes/routes";
+import { authActions } from "../Store/authSlice";
 
 const TopMenuAuth = () => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(authActions.logout());
+    navigate(ROUTES.recentArticles());
+  };
 
   return (
     <div className="flex justify-start items-center gap-4">
@@ -28,7 +37,7 @@ const TopMenuAuth = () => {
               className="dropdown-content menu bg-base-100 bg-opacity-100 shadow rounded-box p-2 w-52"
             >
               <li>
-                <a>Log out</a>
+                <button onClick={() => handleLogout()}>Log out</button>
               </li>
             </ul>
           </div>

@@ -33,6 +33,9 @@ const authSlice = createSlice({
   reducers: {
     logout(state) {
       state.isLoggedIn = false;
+      state.error = false;
+      state.accessToken = "";
+      setAccessToken("");
     },
   },
   extraReducers(builder) {
