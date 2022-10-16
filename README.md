@@ -1,10 +1,19 @@
-# Mighty Applifting Blog App
+# Applifting (Not That) Mighty Blog App
 
 ## Stack
 
 * React (+ webpack and other funcionality under the hood - using create-react-app script)
-* Redux - only because of the challenge specification, React Context API would be sufficient
+* Redux - only because of the challenge specification, React Context API would really be sufficient, Redux is unnecessary
 * DaisyUI + TailwindCSS for basic UI purposes without the need for any huge styling
+
+## Structure
+
+* File structure of the app is pretty straightforward.
+    * Services folder - API handling
+    * Routes folder - everything regarding routing
+    * Pages folder - top-level components that are rendered on separate pages (used for routing)
+    * Layouts folder - components used as page / app layout, such as top menu, page and content wraper etc.
+    * Components folder - all other components excluding Page components used in the app. Each folder inside the components folder belong to a single Page component. Global components used on more pages are saved separately.
 
 ## Problems and reasoning
 
@@ -12,7 +21,7 @@
 
 ### Article vs. Article Detail schema
 
-On more than one page (at least Recent Articles and My Articles) I've ran into problem with first fetching all articles from one endpoint and then fetching each article detail separately just to show the fields' values in the list. One of the solutions would be to save all articles into Redux store e.g. on the start of the app. This would minimize the number of requests for articles' details - fetch each article once, not on every page render. It would NOT solve our problem - e.g. scaling would be a problem. It doesn't make sense to save huge number of articles into some store just to have the data. Best solution seems redesigning the API to provide more data on the `/articles` endpoint.
+On more than one page (at least Recent Articles and My Articles) I've ran into problem with first fetching all articles from one endpoint and then fetching each article detail separately just to show the fields' values in the list. One of the solutions would be to save all articles into Redux store e.g. on the start of the app. This would minimize the number of requests for articles' details - fetch each article once, not on every page render. It would NOT solve our problem - e.g. scaling would be a problem. It doesn't make sense to save huge number of articles into some store just to have the data. Best solution seems redesigning the API to provide more data on the `/articles` endpoint. I decided rather not to show some of the article details that are not present at the `/articles` endpoint (Recent Articles).
 
 ### Authentication
 
@@ -34,3 +43,13 @@ I haven't implemented the uploading / fetching / editing image functionality in 
 
 * Loaders - there are no implemented loaders in the whole app. Usually the 'loader states' are marked with a comment
 * About, Not Found pages - without any styling, they exist just to have the pages :D
+
+## Other ideas and improvements
+
+### Query library
+
+* I think it'd be beneficial to use a query library like *React Query* or something similar to handle different types of API errors and/or loading states. The reason why I haven't used said library is the small complexity of the application. If the app should scale beyond the described purposes, *React Query* would definitely be the way I go for error / loading handling.
+
+## Code documentation
+
+* The source code is not really commented. I believe the code itself is self-explanatory enough and only small parts of the code is described using comments.
