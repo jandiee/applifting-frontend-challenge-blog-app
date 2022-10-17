@@ -1,6 +1,6 @@
 # Applifting (Not That) Mighty Blog App
 
-## Assignment Description
+## Assignment Specification
 
 **https://github.com/Applifting/fullstack-exercise/blob/master/assignment.md**
 
@@ -48,6 +48,10 @@ When fetching the article details, once again I would use 2 api calls. First, fe
 ### Article Detail
 
 * Related articles - used in the Figma designs, not even mentioned in the API. Would be cool to have some kind of magic to recognize related articles and provide it in the `articles/{id}` endpoint :) I created a static component for related articles, but they show just Lorem Ipsum. Maybe I could have provided random articles based on their IDs, anyway... :)
+
+### My Articles sorting proposed implementation
+
+* Have a state with a sorting key (default e.g. `createdAt`). After clicking on another table header row, change this state, then use `useEffect` with the sorting key state in the dependency array to re-sort the articles.
 
 ### Loaders, About Page, Not Found Page
 
